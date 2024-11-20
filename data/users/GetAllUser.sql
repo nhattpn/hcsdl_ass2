@@ -1,0 +1,2 @@
+SELECT ID, NAME, EMAIL
+FROM [Users];
