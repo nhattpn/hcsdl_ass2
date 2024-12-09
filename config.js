@@ -5,25 +5,35 @@ const assert = require('assert');
 
 dotenv.config();
 
-const {PORT, HOST, HOST_URL, SQL_USER, SQL_PASSWORD, SQL_DATABASE, SQL_SERVER} = process.env;
+const {PORT, HOST, SQL_USER, SQL_PASSWORD, SQL_DATABASE, SQL_SERVER, SQL_INSTANCENAME, SQL_PORT} = process.env;
 
-const sqlEncrypt = process.env.SQL_ENCRYPT === "true";
+const SQL_ENCRYPT = process.env.SQL_ENCRYPT === "true";
+const SQL_TRUSTSERVERCERTIFICATE = process.env.SQL_TRUSTSERVERCERTIFICATE === 'true';
+const SQL_ENABLEARITHABORT = process.env.SQL_ENABLEARITHABORT=== 'true;';
+const SQL_TRUSTEDCONNECTION = process.env.SQL_TRUSTEDCONNECTION === 'true';
+
 
 assert(PORT, 'PORT is require');
 assert(HOST, 'HOST is required');
 
 module.exports = {
-    port: PORT,
+    port: Number(PORT),
     host: HOST,
-    url: HOST_URL,
+    // url: HOST_URL,
     sql: {
+        user:   SQL_USER,
+        password:   SQL_PASSWORD,
         server: SQL_SERVER,
-        database: SQL_DATABASE,
-        user: SQL_USER,
-        password: SQL_PASSWORD,
+        database:   SQL_DATABASE,
+        user:   SQL_USER,
+        password:   SQL_PASSWORD,
         options: {
-            encrypt: sqlEncrypt,
-            enableArithAbort: true
+            encrypt:    SQL_ENCRYPT,
+            trustServerCertificate: SQL_TRUSTSERVERCERTIFICATE,
+            trustedConnection:  SQL_TRUSTEDCONNECTION,
+            enableArithAbort:   SQL_ENABLEARITHABORT,
+            instancename:       SQL_INSTANCENAME
         },
+        port: Number(SQL_PORT)
     },
 };
