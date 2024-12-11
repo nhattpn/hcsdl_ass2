@@ -2,8 +2,8 @@ CREATE OR ALTER FUNCTION cal_total_order (@oid UNIQUEIDENTIFIER)
 RETURNS FLOAT
 AS
 BEGIN
-	DECLARE @total_amount FLOAT;
-	DECLARE @voucher_amount FLOAT;
+	DECLARE @total_amount FLOAT = 0;
+	DECLARE @voucher_amount FLOAT = 0;
 	DECLARE @result FLOAT;
 
 	IF NOT EXISTS (
@@ -14,7 +14,7 @@ BEGIN
 		RETURN NULL;
 
 	-- get total_amount before applying voucher
-	DECLARE @quantiy INT;
+	DECLARE @quantity INT;
 	DECLARE @price FLOAT;
 
 	DECLARE cur CURSOR FOR
@@ -27,12 +27,14 @@ BEGIN
 
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
-		SET @total_amount += @price * @quantiy;
+		SET @total_amount += @price * @quantity;
 		FETCH NEXT FROM cur INTO @price, @quantity;
 	END;
 
 	CLOSE cur;
 	DEALLOCATE cur;
+
+	RETURN @total_amount;
 	
 	-- get voucher
 	DECLARE @vid UNIQUEIDENTIFIER;
@@ -66,4 +68,6 @@ BEGIN
 	SET @result = @total_amount - @voucher_amount;	
 	RETURN @result;
 END;
+GO
 
+SELECT dbo.cal_total_order ('D5563116-4614-417E-AE3C-6A5BEF5EF042');

@@ -30,3 +30,13 @@ BEGIN
 
 	RETURN @result;
 END; 
+
+--SELECT cus.uid, SUM(ISNULL(o.total_value, 0))
+--	FROM Customers AS cus
+--	JOIN Orders AS o ON cus.uid = o.uid
+--	WHERE o.status = 'Completed'
+--		AND o.complete_date BETWEEN '2024-12-13' AND '2024-12-20'
+--	GROUP BY cus.uid
+--	ORDER BY SUM(o.total_value) DESC;
+
+--SELECT dbo.top_n_customers (3, '2024-12-13', '2024-12-20');
