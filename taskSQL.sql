@@ -16,7 +16,7 @@ Input:  Customer_ID, Status //có thể là 1 trong 2 nếu để trống thì x
 Output: OID, ORDER_PRICE, ORDER_DATE, CUSTOMER_ID, FULL_NAME, EMAIL, LOYALTY_POINT, SHOP_NAME.
 */
 
-DROP PROCEDURE IF EXISTS OrdersWithCustomerDetails
+--DROP PROCEDURE IF EXISTS OrdersWithCustomerDetails;
 CREATE PROCEDURE OrdersWithCustomerDetails
     @Customer_ID    UNIQUEIDENTIFIER    = NULL,
     @Status         VARCHAR(50)         = NULL

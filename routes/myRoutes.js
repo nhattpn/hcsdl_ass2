@@ -23,7 +23,7 @@ router.get('/product/get', productControl.getProduct)
 router.get('/product/getby', productControl.getProductby)
 
 router.get('/procedure/orderswithcustomerdetails', procedureControl.OrdersWithCustomerDetails)
-
+router.get('/procedure/totalshoprevenue', procedureControl.TotalShopRevenue)
 module.exports = {
     routes: router
 }
