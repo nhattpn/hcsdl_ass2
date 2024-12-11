@@ -33,8 +33,6 @@ BEGIN
 
 	CLOSE cur;
 	DEALLOCATE cur;
-
-	RETURN @total_amount;
 	
 	-- get voucher
 	DECLARE @vid UNIQUEIDENTIFIER;
@@ -71,3 +69,5 @@ END;
 GO
 
 SELECT dbo.cal_total_order ('D5563116-4614-417E-AE3C-6A5BEF5EF042');
+SELECT dbo.cal_total_order ('31267B5C-5C6C-4F4D-ACC3-F01EE7D7D120');
+SELECT dbo.cal_total_order ('4533210F-B8CB-473A-AF4E-0771B2175221');
