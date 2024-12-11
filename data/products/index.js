@@ -7,11 +7,11 @@ const sql       = require('mssql');
 const type = {
     pid:                sql.UniqueIdentifier,
     image:              sql.VarChar,
-    manufacturer_date:  sql.Date,
+    manufactor_date:  sql.Date,
     current_price:      sql.Float,
     name:               sql.VarChar,
     description:        sql.Text,
-    avg_rating:         sql.Decimal,
+    avg_rating:         sql.Float,
     remain_quantity:    sql.Int,
     bid:                sql.UniqueIdentifier, 
     cid:                sql.UniqueIdentifier,

@@ -3,6 +3,7 @@
 const express = require('express');
 const userControll = require('../controllers/userController');
 const productControl = require('../controllers/productController');
+const procedureControl = require('../controllers/procedureController');
 const router = express.Router();
 const {getAllUser,getUserById,createUser,deleteUserById,updateUser}=userControll
 
@@ -20,6 +21,8 @@ router.post('/product/create', upload.array('image', 1), productControl.createPr
 router.delete('/product/delete', productControl.deleteProduct)
 router.get('/product/get', productControl.getProduct)
 router.get('/product/getby', productControl.getProductby)
+
+router.get('/procedure/orderswithcustomerdetails', procedureControl.OrdersWithCustomerDetails)
 
 module.exports = {
     routes: router

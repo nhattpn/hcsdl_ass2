@@ -78,7 +78,8 @@ const deleteProduct = async(req, res, next)=>{
 
 const getProductby= async (req, res, next) => {
     try {
-        const productlist = await productData.getProductby(req.body);
+        console.log(req.query)
+        const productlist = await productData.getProductby(req.query);
         
         if (productlist.status === "Get products failed" ) throw productlist.data
 

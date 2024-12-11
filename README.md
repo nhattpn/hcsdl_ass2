@@ -19,3 +19,5 @@ In MS SQL Server 2022, query syntax diffirent.
 ## REFERENCE
 - Set up nodejs & ms sql server
 https://www.youtube.com/watch?v=9cmv9deKWHw
+tui làm theo clip này nha !
+https://youtu.be/uDS6c6DZyY4?si=wrY6UEVgJ2kmdtma
