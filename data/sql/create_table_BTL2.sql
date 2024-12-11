@@ -1,4 +1,4 @@
-CREATE DATABASE TMDT_HCSDL
+﻿CREATE DATABASE TMDT_HCSDL
 GO
 
 
@@ -196,7 +196,7 @@ CREATE TABLE Orders (
 	complete_date			DATE,
 	fee						FLOAT				NOT NULL,
 	address					NTEXT				NOT NULL,
-	note					NTEXT				NOT NULL,
+	note					NTEXT,
 	actual_delivery_date	DATE,
 	estimate_delivery_date	DATE				NOT NULL DEFAULT CAST(DATEADD(DAY, 15, GETDATE()) AS DATE),
 	start_date				DATE				NOT NULL DEFAULT CONVERT(DATE, GETDATE()),
@@ -209,7 +209,10 @@ CREATE TABLE Orders (
 	sid						UNIQUEIDENTIFIER	NOT NULL,
 	csid					UNIQUEIDENTIFIER	NOT NULL,
 	vid						UNIQUEIDENTIFIER,
-	tracking_number			VARCHAR(100)		NOT NULL UNIQUE,
+	tracking_number			UNIQUEIDENTIFIER	NOT NULL,
+	CONSTRAINT ck_payment_type CHECK (payment_type IN ('Prepaid', 'Pay on delivery')),
+	CONSTRAINT ck_ship_method CHECK (ship_method IN ('Standard', 'Express', 'Free')),
+	CONSTRAINT ck_status CHECK (status IN ('Processing', 'Shipped', 'Completed')),
 	FOREIGN KEY (uid) REFERENCES Customers(uid) ON DELETE NO ACTION,
 	FOREIGN KEY (sid) REFERENCES Shops(sid) ON DELETE NO ACTION,
 	FOREIGN KEY (csid) REFERENCES Courier_Services(csid) ON DELETE NO ACTION,
@@ -218,8 +221,10 @@ CREATE TABLE Orders (
 GO
 
 CREATE TABLE Order_Include (
-	pid		UNIQUEIDENTIFIER	NOT NULL,
-	oid		UNIQUEIDENTIFIER	NOT NULL,
+	pid			UNIQUEIDENTIFIER	NOT NULL,
+	oid			UNIQUEIDENTIFIER	NOT NULL,
+	price		FLOAT				NOT NULL,
+	quantity	INT					NOT NULL,
 	PRIMARY KEY(pid, oid),
 	FOREIGN KEY (pid) REFERENCES Products(pid) ON DELETE NO ACTION,
 	FOREIGN KEY (oid) REFERENCES Orders(oid) ON DELETE NO ACTION
