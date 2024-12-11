@@ -525,11 +525,11 @@ VALUES
 --SELECT * FROM Add_To_Carts
 --SELECT * FROM Carts;
 -------------------------------- Tao du lieu mau Orders -----------------------------------
--- SELECT * FROM Customers;
--- SELECT * FROM Shops;
--- SELECT * FROM Courier_Services;
--- SELECT * FROM Voucher_Own;
--- SELECT * FROM Products;
+--SELECT * FROM Customers;
+--SELECT * FROM Shops;
+--SELECT * FROM Courier_Services;
+--SELECT * FROM Voucher_Own;
+--SELECT * FROM Products;
 
 INSERT INTO Orders (oid, ship_method, complete_date, fee, address, note, actual_delivery_date, estimate_delivery_date, start_date, status, payment_id, 
     payment_type, total_value, total_quantity, uid, sid, csid, vid, tracking_number)

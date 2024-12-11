@@ -14,7 +14,7 @@ BEGIN
 
     UPDATE Products
     SET avg_rating = (
-        SELECT AVG(CAST(rating AS FLOAT))
+        SELECT AVG(rating)
         FROM Reviews
         WHERE Reviews.pid = Products.pid
     )
