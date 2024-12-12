@@ -49,14 +49,14 @@
       <h2 class="text-2xl font-semibold text-gray-700 mb-6">Tổng doanh thu theo Cửa hàng</h2>
       <form id="procedure2-form" class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
-          <label class="block text-gray-700 mb-2">Ngày bắt đầu</label>
+          <label class="block text-gray-700 mb-2" >Ngày bắt đầu </label>
           <input id="start-date" type="date" 
-            class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
         </div>
         <div>
-          <label class="block text-gray-700 mb-2">Ngày kết thúc</label>
+          <label class="block text-gray-700 mb-2" >Ngày kết thúc</label>
           <input id="end-date" type="date" 
-            class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
         </div>
         <button type="button" id="procedure2-submit" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-600 transition duration-200 md:col-span-3">
           Xem báo cáo
@@ -77,12 +77,18 @@
     });
 
     document.getElementById('procedure2-submit').addEventListener('click', function () {
-      const start_Date = document.getElementById('start-date').value;
-      const end_Date = document.getElementById('end-date').value;
-
-      const queryParams = new URLSearchParams({ start_Date, end_Date });
-      window.location.href = `revenue.html?${queryParams.toString()}`;    });
-
+      const startDate = document.getElementById('start-date').value;
+      const endDate = document.getElementById('end-date').value;
+    
+      // Kiểm tra nếu cả hai ngày đều được chọn
+      if (!startDate || !endDate) {
+        alert("Vui lòng chọn cả Ngày bắt đầu và Ngày kết thúc.");
+        return; // Dừng việc gửi yêu cầu nếu không có ngày bắt đầu hoặc kết thúc
+      }
+    
+      const queryParams = new URLSearchParams({ start_Date: startDate, end_Date: endDate });
+      window.location.href = `revenue.html?${queryParams.toString()}`;
+    });
 
   </script>
 </body>

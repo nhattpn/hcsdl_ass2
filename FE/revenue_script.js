@@ -1,25 +1,33 @@
-const API_URL = "http://localhost:5000/api/procedure/totalshoprevenue"; // Thay đổi URL API 
-
+const API_URL = "http://localhost:5000/api/procedure/totalshoprevenue"; 
 // DOM Elements
 const productTable = document.querySelector("#product-table");
 const searchInput = document.querySelector("#search-input");
-const sortOptions = document.querySelector("#sort-options");
+const addShopButton = document.querySelector("#add-shop-btn"); // Giả sử có nút thêm cửa hàng
+const notificationElement = document.querySelector("#notification");
 
 
-// Lấy thông tin từ URL
 const getQueryParams = () => {
   const params = new URLSearchParams(window.location.search);
-  return {
-    start_date: params.get("start_date"),
-    end_date: params.get("end_date"),
-  };
+  const start_date = params.get("start_Date"); // Lưu ý: start_Date với chữ cái "D" in hoa
+  const end_date = params.get("end_Date"); // Lưu ý: end_Date với chữ cái "D" in hoa
+  return { start_date, end_date};
 };
 
-// Fetch and render orders
-let currentOrders = [];
+// Hàm hiển thị thông báo
+const showNotification = (message, isSuccess = true) => {
+  notificationElement.textContent = message;
+  notificationElement.classList.remove("hidden");
+  notificationElement.classList.add(isSuccess ? "bg-green-500" : "bg-red-500");
 
-const fetchOrders = async () => {
+  setTimeout(() => {
+    notificationElement.classList.add("hidden");
+  }, 3000);
+};
+
+// Fetch and render total shop revenue
+const fetchTotalRevenue = async () => {
   const { start_date, end_date } = getQueryParams();
+  console.log("Query Params:", start_date, end_date);
 
   try {
     const queryParams = {};
@@ -33,42 +41,40 @@ const fetchOrders = async () => {
         "Content-Type": "application/json",
       },
     });
+    console.log("Raw Response:", response);
+
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.endDateText}`);
+      throw new Error(`API error: ${response.statusText}`);
     }
 
-    currentOrders = await response.json();
-    renderOrders(currentOrders);
+    const revenueData = await response.json();
+    renderRevenue(revenueData);
   } catch (error) {
-    console.error("Error fetching orders:", error);
-    alert("Danh sách trống");
+    console.error("Error fetching revenue:", error);
+    showNotification("Không thể tải doanh thu.", false);
   }
 };
 
-// Render orders to the DOM
-const renderOrders = (orders) => {
-  productTable.innerHTML = "";
+// Render revenue data to the table
+const renderRevenue = (revenue) => {
+  productTable.innerHTML = ""; // Clear previous data
 
-  if (orders.length === 0) {
-    productTable.innerHTML = '<tr><td colspan="8" class="text-center text-gray-500 py-4">Không có đơn hàng nào.</td></tr>';
+  if (!revenue || revenue.length === 0) {
+    productTable.innerHTML = '<tr><td colspan="3" class="text-center text-gray-500 py-4">Không có dữ liệu doanh thu.</td></tr>';
     return;
   }
-  console.log(orders); 
-  orders.forEach((order) => {
+  console.log("Revenue Data:", revenue);
+  revenue.forEach((item) => {
     const row = `
-    <tr data-oid="${order.OID}" data-name="${order.FULL_NAME}" data-store-name="${order.SHOP_NAME}" data-end_date="${order.ORDER_endDate}">
-        <td class="py-3 px-6 border-b">${order.FULL_NAME}</td>
-        <td class="py-3 px-6 border-b">${order.SHOP_NAME}</td>
-        <td class="py-3 px-6 border-b">${order.ORDER_PRICE} VND</td>
-        <td class="py-3 px-6 border-b">${order.ORDER_endDate}</td>
-        <td class="py-3 px-6 border-b">${order.EMAIL}</td>
-        <td class="py-3 px-6 border-b">${new Date(order.ORDER_DATE).toLocaleDateString()}</td>
-        <td class="py-3 px-6 border-b">${order.OID}</td>
-        <td class="py-3 px-6 border-b text-center">${order.LOYALTY_POINT}</td>
-        <td class="py-3 px-6 border-b text-center">
-          <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition" onclick="editOrder('${order.OID}')">Sửa</button>
-          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition" onclick="deleteOrder('${order.OID}')">Xóa</button>
+      <tr>
+      <td class="py-3 px-6 border-b">
+      <a href="edit-shop.html?shopId=${item.sid}" class="text-blue-500 hover:underline">${item.shop_name}</a>
+    </td>
+        <td class="py-3 px-6 border-b text-center">${item.sid}</td>
+        <td class="py-3 px-6 border-b text-center">${item.total_revenue} VND</td>
+        <td class="py-3 px-6 border-b text-right">
+          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition" onclick="deleteShop('${item.sid}')">Xóa</button>
         </td>
       </tr>
     `;
@@ -76,95 +82,57 @@ const renderOrders = (orders) => {
   });
 };
 
-// Search functionality
-const searchOrders = () => {
-  const searchTerm = searchInput.value.toLowerCase();
-  const rows = productTable.querySelectorAll("tr[data-oid]");
-
-  rows.forEach((row) => {
-    const orderId = row.getAttribute("data-oid").toLowerCase();
-    const end_date = row.getAttribute("data-end_date").toLowerCase();
-    const name = row.getAttribute("data-name").toLowerCase();
-    const storeName = row.getAttribute("data-store-name").toLowerCase();
-
-    if (
-      orderId.includes(searchTerm) ||
-      end_date.includes(searchTerm) ||
-      name.includes(searchTerm) ||
-      storeName.includes(searchTerm)
-    ) {
-      row.style.display = "table-row";
-    } else {
-      row.style.display = "none";
-    }
-  });
-};
-// Sorting functionality
-const sortOrders = () => {
-  const sortBy = sortOptions.value;
-  const direction = sortDirection.value; // Lấy giá trị hướng sắp xếp
-  const sortedOrders = [...currentOrders];
-
-  sortedOrders.sort((a, b) => {
-    let comparison = 0;
-    switch (sortBy) {
-      case "name":
-        comparison = a.FULL_NAME.localeCompare(b.FULL_NAME);
-        break;
-      case "storeName":
-        comparison = a.SHOP_NAME.localeCompare(b.SHOP_NAME);
-        break;
-      case "price":
-        comparison = a.ORDER_PRICE - b.ORDER_PRICE;
-        break;
-      case "orderDate":
-        comparison = new Date(a.ORDER_DATE) - new Date(b.ORDER_DATE);
-        break;
-      case "loyaltyPoints":
-        comparison = a.LOYALTY_POINT - b.LOYALTY_POINT;
-        break;
-      default:
-        break;
-    }
-    return direction === "asc" ? comparison : -comparison;
-  });
-
-
-  renderOrders(sortedOrders);
-};
-
-// Edit order
-const editOrder = (orderId) => {
-  alert(`Chỉnh sửa đơn hàng: ${orderId}`);
-  // Logic để chỉnh sửa đơn hàng
-};
-
-// Delete order
-const deleteOrder = async (orderId) => {
-  if (!confirm("Bạn có chắc chắn muốn xóa đơn hàng này?")) return;
+// Delete shop function
+const deleteShop = async (shopId) => {
+  if (!confirm("Bạn có chắc chắn muốn xóa cửa hàng này?")) return;
 
   try {
-    const response = await fetch(`${API_URL}/${orderId}`, {
+    const response = await fetch(`http://localhost:5000/api/shop/delete/${shopId}`, {
       method: "DELETE",
     });
 
     if (!response.ok) {
-      throw new Error("Không thể xóa đơn hàng.");
+      throw new Error("Không thể xóa cửa hàng.");
     }
 
-    alert("Đơn hàng đã được xóa.");
-    fetchOrders();
+    showNotification("Cửa hàng đã được xóa.", true);
+    fetchTotalRevenue(); // Refresh revenue data
   } catch (error) {
-    console.error("Error deleting order:", error);
-    alert("Lỗi khi xóa đơn hàng. Vui lòng thử lại.");
+    console.error("Error deleting shop:", error);
+    showNotification("Lỗi khi xóa cửa hàng. Vui lòng thử lại.", false);
   }
 };
 
-// Event listeners
-searchInput.addEventListener("input", searchOrders);
-if (sortOptions) {
-  sortOptions.addEventListener("change", sortOrders);}
-  if (sortDirection) {
-    sortDirection.addEventListener("change", sortOrders);}
-// Initialize
-fetchOrders();
+// Add new shop (POST request)
+const addShop = async (shopData) => {
+  try {
+    const formData = new FormData();
+    formData.append("sid", shopData.sid);
+    formData.append("uid", shopData.uid);
+    formData.append("name", shopData.name);
+    formData.append("address", shopData.address);
+    formData.append("logo", shopData.logo);
+    formData.append("avg_rating", shopData.avg_rating);
+
+    const response = await fetch("http://localhost:5000/api/shop/create", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Không thể thêm cửa hàng.");
+    }
+
+    showNotification("Cửa hàng đã được thêm thành công.", true);
+    fetchTotalRevenue(); // Refresh revenue data
+  } catch (error) {
+    console.error("Error adding shop:", error);
+    showNotification("Lỗi khi thêm cửa hàng.", false);
+  }
+};
+
+// Event listener for search input
+// searchInput.addEventListener("input", searchOrders);
+
+// Initialize revenue data fetch
+fetchTotalRevenue();

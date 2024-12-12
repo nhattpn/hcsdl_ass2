@@ -10,7 +10,7 @@
   <div class="container mx-auto p-6 max-w-7xl">
     <!-- Header -->
     <header class="mb-6">
-      <h1 class="text-4xl font-extrabold text-center text-blue-600">Đơn hàng</h1>
+      <h1 class="text-4xl font-extrabold text-center text-blue-600">Doanh thu cửa hàng</h1>
     </header>
 
     <!-- Navigation Button -->
@@ -26,45 +26,21 @@
       <input
   id="search-input"
   type="text"
-  placeholder="Tìm kiếm theo Order ID..."
+  placeholder="Tìm kiếm"
   class="border-2 border-gray-300 p-3 rounded-lg w-full md:w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
-    <th class="py-3 px-6 text-left font-semibold text-gray-700">Sắp xếp theo:</th>
-    <select id="sort-options" 
-          class="border-2 border-gray-300 p-3 rounded-lg w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          <option value="name">Tên khách hàng</option>
-          <option value="storeName">Tên cửa hàng</option>
-          <option value="price">Giá</option>
-          <option value="orderDate">Ngày đặt hàng</option>
-          <option value="loyaltyPoints">Điểm</option>
-        </select>
-      <select id="sortDirection" 
-          class="border-2 border-gray-300 p-3 rounded-lg w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          <option value="asc">Tăng dần</option>
-          <option value="desc">Giảm dần</option>
-        </select>
   </div>
 </section>
 
-<!-- Kết quả tìm kiếm sản phẩm -->
-<section id="product-details-section" class="hidden bg-white p-6 shadow-lg rounded-lg mb-8">
-  <h2 class="text-lg font-semibold mb-4">Chi tiết sản phẩm</h2>
-  <div id="product-details" class="text-gray-700"></div>
-</section>
 
 <!-- Product List Table -->
 <section class="bg-white shadow-lg rounded-lg overflow-hidden">
   <table class="min-w-full border-collapse table-auto">
     <thead class="bg-gray-100">
       <tr>
-        <th class="py-3 px-6 text-left font-semibold text-gray-700">Tên khách hàng</th>
-        <th class="py-3 px-6 text-left font-semibold text-gray-700">Cửa hàng</th>
-        <th class="py-3 px-6 text-left font-semibold text-gray-700">Giá</th>
-        <th class="py-3 px-6 text-left font-semibold text-gray-700">Trạng thái</th>
-        <th class="py-3 px-6 text-left font-semibold text-gray-700">Email</th>
-        <th class="py-3 px-6 text-left font-semibold text-gray-700">Ngày đặt hàng</th>
-        <th class="py-3 px-6 text-left font-semibold text-gray-700">OID</th>
-        <th class="py-3 px-6 text-center font-semibold text-gray-700">Điểm</th>
-        <th class="py-3 px-6 text-center font-semibold text-gray-700">Hành động</th>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">Tên cửa hàng</th>
+        <th class="py-3 px-6 text-center font-semibold text-gray-700">ShopID</th>
+        <th class="py-3 px-6 text-center font-semibold text-gray-700">Doanh thu</th>
+        <th class="py-3 px-6 text-right font-semibold text-gray-700 ">Hành động</th>
       </tr>
     </thead>
     <tbody id="product-table" class="divide-y divide-gray-200">
@@ -84,8 +60,8 @@
     <div id="delete-dialog" 
       class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Xác nhận xóa đơn hàng</h2>
-        <p id="delete-message" class="text-gray-600 mb-4">Bạn có chắc chắn muốn xóa đơn hàng?</p>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Xác nhận xóa cửa hàng</h2>
+        <p id="delete-message" class="text-gray-600 mb-4">Bạn có chắc chắn muốn xóa cửa hàng?</p>
         <div class="flex justify-end space-x-4">
           <button id="cancel-delete" 
             class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200">
