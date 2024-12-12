@@ -24,7 +24,7 @@ window.loadProductToForm = async (id) => {
     // API trả về một mảng, lấy phần tử đầu tiên
     const product = products[0];
     console.log(product);
-    document.getElementById("product-id").textContent = product.pid;
+    document.getElementById("product-id").value = product.pid;
 
 
     // Điền thông tin vào form
@@ -80,7 +80,7 @@ function getCategoryName(cid) {
     "35A97685-06B2-4E5F-BF1C-DD26673659E1": "Tivi",
     "E6D017C3-5C0D-4E6E-8438-F3731ABC9889": "Thời trang",
   };
-  return Object.keys(categoryMapping).find((key) => categoryMapping[key] === cid);
+  return categoryMapping[cid] || null;
 }
 
 // Hàm lấy tên thương hiệu từ ID
@@ -91,7 +91,7 @@ function getBrandName(bid) {
     "885CD347-61ED-4315-8E0C-8F1F48F496E6": "Sony",
     "0E71583F-7857-43FD-8DDF-F3BECF7AE357": "Nike",
   };
-  return Object.keys(brandMapping).find((key) => brandMapping[key] === bid);
+  return brandMapping[bid] || null;
 }
 
 
