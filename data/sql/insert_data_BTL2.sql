@@ -34,9 +34,8 @@ VALUES
 ('9A4BC12B-CD41-4409-A80E-83A035759E01', N'Dương Văn', N'Tú', 'duongvantu', 'password123', 'M', '1992-04-14', 'tu.duong@example.com'),
 ('DEC48823-CA3C-4F08-9AC0-C9C169494EF4', N'Dương Thị', N'Yến', 'duongthiyen', 'password123', 'F', '2000-07-25', 'yen.duong@example.com'),
 ('4F8B3593-A0FA-4DF0-AB7C-842D056033DC', N'Tống Văn', N'Thịnh', 'tongvanthinh', 'password123', 'M', '1995-08-30', 'thinh.tong@example.com');
-GO
 
---SELECT uid FROM Users;
+--SELECT * FROM Users;
 
 --DELETE FROM U_Addresses;
 
@@ -76,9 +75,8 @@ VALUES
 ('6A1902EC-83B5-4EF9-BEEC-D9EDA8780AD3', N'22 Lê Văn Lương, Hà Nội'),
 ('C51B0243-499E-4D81-AB79-583635379222', N'30 Trường Chinh, TP.HCM');
 
---SELECT uid, COUNT(*) AS number_of_addresses
---FROM U_Addresses
---GROUP BY uid;
+--SELECT * FROM U_Addresses
+--ORDER BY uid;
 GO
 
 INSERT INTO U_Phones
@@ -113,9 +111,8 @@ VALUES
 ('DEC48823-CA3C-4F08-9AC0-C9C169494EF4', '09091234567'),
 ('4F8B3593-A0FA-4DF0-AB7C-842D056033DC', '09092345678');
 
---SELECT uid, COUNT(*) AS number_of_phones
---FROM U_Addresses
---GROUP BY uid;
+--SELECT * FROM U_Phones
+--ORDER BY uid;
 GO
 
 -------------------------------- Tao du lieu mau Bank_accounts -----------------------------------
@@ -154,7 +151,7 @@ VALUES
 ('B1292293-D584-4DE6-925F-3D2D960E00D4', '4F8B3593-A0FA-4DF0-AB7C-842D056033DC', '223344556733', 'Vietcombank');
 GO
 
---SELECT DISTINCT bank_id FROM Bank_Accounts;
+--SELECT * FROM Bank_Accounts;
 
 
 -------------------------------- Tao du lieu mau Customers -----------------------------------
@@ -191,6 +188,7 @@ VALUES
 ('5AAA4397-7C12-47E0-83A6-2B104E7F4C03', 'default', FLOOR(RAND() * 500) * 100),
 ('E1F297CE-BCAF-4244-9997-DBF743CD0F6F', 'default', FLOOR(RAND() * 500) * 100),
 ('F11B525F-6517-4216-9EAF-9E78BD75DB78', 'default', FLOOR(RAND() * 1000) * 100);
+
 GO;
 
 
@@ -241,6 +239,7 @@ VALUES
 ('EC2A67AC-C4D1-4EF0-A376-B424194D8848', '4F8B3593-A0FA-4DF0-AB7C-842D056033DC', N'Áo Thun Năng Động', N'Số 15, Đường Bạch Mai, Quận Hai Bà Trưng, Hà Nội', 'ao_thun_nang_dong_logo.png', NULL),
 ('CC2F44C8-0D28-4A0E-BAFE-C3643C321605', '54A40A30-B51C-4082-AF18-542D9D643095', N'Shop Vải Sắc', N'Số 11, Đường Trần Bình Trọng, Quận 5, TP.HCM', 'shop_vai_sac_logo.png', NULL),
 ('36C787D6-F5C6-48D2-AFB4-E3442FFEE6E3', '54A40A30-B51C-4082-AF18-542D9D643095', N'Balo Xinh', N'Số 22, Đường Điện Biên Phủ, Quận Bình Thạnh, TP.HCM', 'balo_xinh_logo.png', NULL);
+
 GO;
 
 --SELECT sel.uid, COUNT(*) AS shop_count
@@ -248,7 +247,7 @@ GO;
 --JOIN Shops AS s ON sel.uid = s.uid 
 --GROUP BY sel.uid;
 
-SELECT * FROM Shops
+--SELECT * FROM Shops
 
 
 -------------------------------- Tao du lieu mau Vouchers -----------------------------------
@@ -330,9 +329,7 @@ VALUES
     ('5608E2B3-C86C-4852-8E01-61D317A32B00', '68FAEA19-81E1-46C0-928A-497BBDA7454F'),
     ('661F4C68-CB4F-4DC1-86BD-71D9A338B553', '138EC4BA-F781-4888-A19C-4DECD8B0C4F6');
 
---SELECT uid, COUNT(vid)
---FROM Voucher_Own
---GROUP BY uid;
+--SELECT * FROM Voucher_Own
 
 
 
@@ -361,7 +358,7 @@ INSERT INTO CS_Phones VALUES
 ('C4990CE0-1779-4D41-A9D0-8E6DFFE44989', '0918765432'),
 ('C4990CE0-1779-4D41-A9D0-8E6DFFE44989', '0981234567');
 
-
+--SELECT * FROM CS_Phones
 --CS_Addresses
 -- Courier Service 1
 INSERT INTO CS_Addresses VALUES 
@@ -375,7 +372,7 @@ INSERT INTO CS_Addresses VALUES
 ('C4990CE0-1779-4D41-A9D0-8E6DFFE44989', N'3 Phan Chu Trinh, Quận Hoàn Kiếm, Hà Nội'),
 ('C4990CE0-1779-4D41-A9D0-8E6DFFE44989', N'12 Cát Dài, Quận Lê Chân, Hải Phòng');
 
-
+--SELECT * FROM CS_Addresses
 
 -------------------------------- Tao du lieu mau Categories -----------------------------------
 --DELETE FROM Categories;
@@ -410,7 +407,7 @@ INSERT INTO Brands (bid, name) VALUES
 ('885CD347-61ED-4315-8E0C-8F1F48F496E6', N'Sony'),
 ('0E71583F-7857-43FD-8DDF-F3BECF7AE357', N'Nike');
 
-SELECT * FROM Categories
+--SELECT * FROM Brands;
 
 
 -------------------------------- Tao du lieu mau Products -----------------------------------
@@ -499,6 +496,8 @@ VALUES
 
 --DELETE FROM Carts;
 
+--SELECT * FROM Carts
+
 INSERT INTO Add_To_Carts (uid, pid, current_price, quantity) 
 VALUES
 ('B74E67B5-3FAA-4E14-8CC5-0741B34AC1F7', 'A42BEE4C-7B42-4F08-B2DA-0B2C6C65754A', 100.50, 2),
@@ -522,8 +521,8 @@ VALUES
 ('86D2604F-4650-40BF-B171-A8E6E8849023', 'B3C077E7-6B4A-4740-9603-6C0331B07FA9', 55.00, 5),
 ('4E9C06F4-9CC0-4466-90BA-D24DDE3D9951', 'CB0EAFA7-19B1-46A4-865D-773ECE151FA9', 75.00, 3);
 
-SELECT * FROM Add_To_Carts
-SELECT * FROM Carts;
+--SELECT * FROM Add_To_Carts
+--SELECT * FROM Carts;
 -------------------------------- Tao du lieu mau Orders -----------------------------------
 --SELECT * FROM Customers;
 --SELECT * FROM Shops;
@@ -626,6 +625,7 @@ INSERT INTO Reviews (rid, create_date, image, comment, rating, uid, pid)
 VALUES
 ('CB508704-9FDD-40A4-8EC9-0942FA6BCD30', DEFAULT, NULL, N'Nice!', 4, 'B74E67B5-3FAA-4E14-8CC5-0741B34AC1F7', 'A42BEE4C-7B42-4F08-B2DA-0B2C6C65754A'),
 ('A0A49B1D-8FC1-4B04-81F4-09A9F269D383', DEFAULT, NULL, N'Tuyệt vời.', 5, '978125C2-1459-46DC-8F1D-12E0E43F1063', '1AB8CD31-925E-42FC-BFEB-0F76B3E8E2A4'),
+('AB239B1D-8FC1-4B04-81F4-09A9F269D381', DEFAULT, NULL, N'Tuyệt vời.', 1, '978125C2-1459-46DC-8F1D-12E0E43F1063', 'A42BEE4C-7B42-4F08-B2DA-0B2C6C65754A'),
 ('0017F72A-DE6A-4C77-8A38-0D0B5B3FCB9F', DEFAULT, NULL, N'Tạm ổn', 3, '00D15D09-AE0B-43B3-AD65-1CEF0C595E2C', 'F40B7540-CCD0-4A90-BC7C-1B514C368E5D'),
 ('63267B54-B368-48A6-837D-16E78C71A5DA', DEFAULT, NULL, N'Ngon', 5, 'CD56AB62-1C05-401C-B16B-1D41A1519EC0', '2C1B545E-5234-4C48-9D8A-1D9A2300D361'),
 ('FB675DE2-E58A-46BB-B208-1900C5E35ADA', DEFAULT, NULL, N'Tạm', 4, '4C222B01-F1C5-4307-92A7-208E1FF2A80B', '5789FF20-59B9-4546-B293-1FFD8614E355'),
@@ -645,5 +645,8 @@ VALUES
 ('3BF9B0F6-467D-4792-85FC-F04A2AEDAD06', DEFAULT, NULL, N'Tru tiên', 3, '86D2604F-4650-40BF-B171-A8E6E8849023', 'B3C077E7-6B4A-4740-9603-6C0331B07FA9'),
 ('CB2488F8-C5E9-4533-BBBB-F6E712C43324', DEFAULT, NULL, N'Kỹ sư điền trang bá nhất thế giới', 2, '4E9C06F4-9CC0-4466-90BA-D24DDE3D9951', 'CB0EAFA7-19B1-46A4-865D-773ECE151FA9');
 
---SELECT * FROM Reviews
+SELECT * FROM Reviews
+ORDER BY pid;
 --SELECT * FROM Products
+
+

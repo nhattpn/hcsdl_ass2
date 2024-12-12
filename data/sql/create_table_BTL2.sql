@@ -73,11 +73,11 @@ CREATE TABLE Shops (
 	name			NVARCHAR(100)		NOT NULL,
 	address			NTEXT				NOT NULL,
 	logo			VARCHAR(100)		NOT NULL,
-	avg_rating		DECIMAL(2, 1),
+	avg_rating		FLOAT,
+	active			BIT					DEFAULT 1
 	FOREIGN KEY (uid) REFERENCES Sellers(uid) ON DELETE NO ACTION
 );
 GO
-
 
 -------------------------- Vouchers -------------------------------
 
@@ -237,11 +237,10 @@ CREATE TABLE Reviews (
 	create_date		DATETIME			NOT NULL DEFAULT GETDATE(),
 	image			VARCHAR(100),
 	comment			NTEXT,
-	rating			INT					NOT NULL,
+	rating			DECIMAL(2,1)					NOT NULL,
 	uid				UNIQUEIDENTIFIER	NOT NULL,
 	pid				UNIQUEIDENTIFIER	NOT NULL, 
 	CONSTRAINT chk_rating CHECK (rating IN (1, 2, 3, 4, 5)),
 	FOREIGN KEY (uid) REFERENCES Customers(uid) ON DELETE NO ACTION,
 	FOREIGN KEY (pid) REFERENCES Products(pid) ON DELETE NO ACTION
 );
-GO;

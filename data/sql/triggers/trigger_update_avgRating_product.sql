@@ -13,10 +13,10 @@ BEGIN
     SELECT DISTINCT pid FROM DELETED;
 
     UPDATE Products
-    SET avg_rating = (
+    SET avg_rating = ROUND((
         SELECT AVG(rating)
         FROM Reviews
         WHERE Reviews.pid = Products.pid
-    )
+    ), 1)
     WHERE Products.pid IN (SELECT pid FROM @AffectedProducts);
 END;
