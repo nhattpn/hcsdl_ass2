@@ -38,7 +38,8 @@ BEGIN
         s.sid, s.name AS shop_name, SUM(o.total_value) AS total_revenue
     FROM Shops AS s
     JOIN Orders AS o ON o.sid = s.sid
-    WHERE o.status = ''Completed''
+    WHERE s.active = 1
+        AND o.status = ''Completed''
         AND o.complete_date BETWEEN @sd AND @ed
         AND (@shop_name IS NULL OR s.name LIKE ''%'' + @shop_name + ''%'')
     GROUP BY s.sid, s.name

@@ -131,7 +131,9 @@ const deleteShop = async(body)=> {
         let result = await pool.request()
             .input('sid', type['sid'], body.sid)
             .query(`
-                DELETE FROM Shops WHERE sid = @sid
+                UPDATE Shops 
+                SET active = 0
+                WHERE sid = @sid
             `);
         console.log(result)
         console.log(path_res)
@@ -139,9 +141,9 @@ const deleteShop = async(body)=> {
         
         let path = path_res.recordset[0].logo
         if (result.rowsAffected[0] === 1) {
-            let del = await deleteimage(path)
-            if      (del != 'successfully') console.log('Delete image failed');
-            else    console.log('Delete image successfully');
+            // let del = await deleteimage(path)
+            // if      (del != 'successfully') console.log('Delete image failed');
+            // else    console.log('Delete image successfully');
             return  "Delete successfully"
         } else {
             return  'Delete error';
