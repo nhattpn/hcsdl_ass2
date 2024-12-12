@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đơn hàng</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+  <div class="container mx-auto p-6 max-w-7xl">
+    <!-- Header -->
+    <header class="mb-6">
+      <h1 class="text-4xl font-extrabold text-center text-blue-600">Đơn hàng</h1>
+    </header>
+
+    <!-- Navigation Button -->
+    <button onclick="window.location.href='home.html'" 
+        class="bg-indigo-500 text-white px-6 py-3 rounded-lg shadow hover:bg-indigo-600 transition duration-200 mb-6">
+      Quay về Trang Định Hướng
+    </button>
+
+   <!-- Search and Filter -->
+<section class="mb-8 bg-white p-6 shadow-lg rounded-lg">
+  <div class="flex flex-wrap gap-4 items-center">
+    <!-- Input tìm kiếm OID -->
+      <input
+  id="search-input"
+  type="text"
+  placeholder="Tìm kiếm theo Order ID..."
+  class="border-2 border-gray-300 p-3 rounded-lg w-full md:w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+    <th class="py-3 px-6 text-left font-semibold text-gray-700">Sắp xếp theo:</th>
+    <select id="sort-options" 
+          class="border-2 border-gray-300 p-3 rounded-lg w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="name">Tên khách hàng</option>
+          <option value="storeName">Tên cửa hàng</option>
+          <option value="price">Giá</option>
+          <option value="orderDate">Ngày đặt hàng</option>
+          <option value="loyaltyPoints">Điểm</option>
+        </select>
+      <select id="sortDirection" 
+          class="border-2 border-gray-300 p-3 rounded-lg w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="asc">Tăng dần</option>
+          <option value="desc">Giảm dần</option>
+        </select>
+  </div>
+</section>
+
+<!-- Kết quả tìm kiếm sản phẩm -->
+<section id="product-details-section" class="hidden bg-white p-6 shadow-lg rounded-lg mb-8">
+  <h2 class="text-lg font-semibold mb-4">Chi tiết sản phẩm</h2>
+  <div id="product-details" class="text-gray-700"></div>
+</section>
+
+<!-- Product List Table -->
+<section class="bg-white shadow-lg rounded-lg overflow-hidden">
+  <table class="min-w-full border-collapse table-auto">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">Tên khách hàng</th>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">Cửa hàng</th>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">Giá</th>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">Trạng thái</th>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">Email</th>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">Ngày đặt hàng</th>
+        <th class="py-3 px-6 text-left font-semibold text-gray-700">OID</th>
+        <th class="py-3 px-6 text-center font-semibold text-gray-700">Điểm</th>
+        <th class="py-3 px-6 text-center font-semibold text-gray-700">Hành động</th>
+      </tr>
+    </thead>
+    <tbody id="product-table" class="divide-y divide-gray-200">
+      <tr>
+        <td colspan="7" class="text-center text-gray-500 py-4">Không có sản phẩm nào.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+    <!-- Notification Messages -->
+    <div id="notification" 
+      class="hidden fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg">
+    </div>
+
+    <!-- Delete Confirmation Dialog -->
+    <div id="delete-dialog" 
+      class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Xác nhận xóa đơn hàng</h2>
+        <p id="delete-message" class="text-gray-600 mb-4">Bạn có chắc chắn muốn xóa đơn hàng?</p>
+        <div class="flex justify-end space-x-4">
+          <button id="cancel-delete" 
+            class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200">
+            Hủy
+          </button>
+          <button id="confirm-delete" 
+            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200">
+            Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="revenue_script.js"></script>
+</body>
+</html>

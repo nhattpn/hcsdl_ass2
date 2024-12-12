@@ -1,0 +1,15 @@
+{
+  "products": [
+    {
+      "id": "2",
+      "name": "Sản phẩm B",
+      "description": "Mô tả sản phẩm B",
+      "price": 100000,
+      "quantity": 20,
+      "manufacturingDate": "2024-02-01",
+      "category": "Đồ gia dụng",
+      "brand": "Thương hiệu B",
+      "image": "https://via.placeholder.com/150"
+    }
+  ]
+}
