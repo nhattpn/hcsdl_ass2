@@ -5,29 +5,25 @@ const config    = require('../../config');
 const sql       = require('mssql');
 
 const type = {
-    pid:                sql.UniqueIdentifier,
+    sid:                sql.UniqueIdentifier,
+    uid:                sql.UniqueIdentifier,
     image:              sql.VarChar,
-    manufactor_date:    sql.Date,
-    current_price:      sql.Float,
-    name:               sql.VarChar,
+    logo:               sql.VarChar,
+    name:               sql.NVarChar,
     description:        sql.Text,
     avg_rating:         sql.Float,
-    remain_quantity:    sql.Int,
-    bid:                sql.UniqueIdentifier, 
-    cid:                sql.UniqueIdentifier,
-    sid:                sql.UniqueIdentifier
+    address:            sql.NText
 };
 
-const getallProduct = async()=>{
+const getallShop = async()=>{
     try {
         let pool = await sql.connect(config.sql);
-        let result = await pool.request()
-        .query('SELECT * FROM Products');
-        console.log("Kết quả truy vấn:", result);
+        let result = await pool.request().query('SELECT * FROM Shops');
+        console.log("Kết quả truy vấn:\n", result);
         sql.close();
-        if (result.recordset.length <= 0) throw "No products exist in the Products table"
+        if (result.recordset.length <= 0) throw "No Shops exist in the Shops table"
         return {
-            status: "Get all products successfully",
+            status: "Get all Shops successfully",
             data:   result.recordset
         }
     } catch (err) {
@@ -35,42 +31,22 @@ const getallProduct = async()=>{
         sql.close();
         // return err
         return {
-            status: "Get all products failed",
+            status: "Get all Shops failed",
             data:   err
         }
     }
 }
 
-const getProduct    = async(body)=>{
-    try {
-        let pool = await sql.connect(config.sql);
-        let result = await pool.request().query(`SELECT * FROM Products WHERE pid = '${body.pid}'`);
-        console.log("Kết quả truy vấn:", result);
-        sql.close();
-        if (result.recordset.length <= 0) throw "No products exist in the Products table"
-        return {
-            status: "Get product successfully",
-            data:   result.recordset
-        }
-    } catch (err) {
-        sql.close();
-        return {
-            status: "Get products failed",
-            data:   err
-        }
-    }
-}
-
-const updateProduct = async (body) => {
+const updateShop = async (body) => {
     try {
         let pool = await sql.connect(config.sql);
         for (let [key, value] of Object.entries(body)) {
-            if( (key === "pid") || (key === "image") ) continue
+            if( (key === "sid") || (key === "image") ) continue
             let result = await pool.request()
                 .query(`
-                    UPDATE Products
+                    UPDATE Shops
                     SET ${key}  = '${value}'
-                    WHERE pid   = '${body.pid}';
+                    WHERE sid   = '${body.sid}';
                 `);
 
             console.log(result)
@@ -81,7 +57,7 @@ const updateProduct = async (body) => {
             }
         }
         if ('image' in body && body.image.length > 0){
-            let image_res =  await pool.request().query(`SELECT image FROM Products WHERE pid = '${body.pid}'`)
+            let image_res =  await pool.request().query(`SELECT logo FROM Shops WHERE sid = '${body.sid}'`)
             console.log(image_res)
             if (image_res.recordset.length > 0) {
                 let del = await deleteimage(image_res.recordset[0].image);
@@ -91,9 +67,9 @@ const updateProduct = async (body) => {
             let result = await pool.request()
                 .input('image', type['image'], body.image[0].path)
                 .query(`
-                    UPDATE Products
-                    SET image   = @image
-                    WHERE pid   = '${body.pid}';
+                    UPDATE Shops
+                    SET logo   = @image
+                    WHERE sid   = '${body.sid}';
                 `);
             console.log(result)
             if (result.rowsAffected[0] === 1) {
@@ -110,14 +86,15 @@ const updateProduct = async (body) => {
     }
 }
 
-const createProduct = async (body)=> {
+const createShop = async (body)=> {
     try {
+        console.log(body)
         let pool = await sql.connect(config.sql);
         let result = await pool.request()
-            .input('image', type['image'], body.image[0].path)
+            .input('logo', type['image'], body.image[0].path)
             .query(`
-                INSERT INTO Products (pid, image, manufactor_date, current_price, name, description, avg_rating, remain_quantity, bid, cid, sid)
-                VALUES ('${body.pid}', @image , '${body.manufactor_date}', ${body.current_price}, '${body.name}', '${body.description}', ${body.avg_rating}, ${body.remain_quantity}, '${body.bid}', '${body.cid}', '${body.sid}')
+                INSERT INTO Shops (sid, uid, name, address, logo, avg_rating)
+                VALUES ('${body.sid}', '${body.uid}', '${body.name}', '${body.address}', @logo, '${body.avg_rating}')
             `);
         console.log(result)
         sql.close();
@@ -139,23 +116,28 @@ const createProduct = async (body)=> {
     }
 }
 
-const deleteProduct = async(body)=> {
+const deleteShop = async(body)=> {
     try{
+        // console.log(body)
         let pool = await sql.connect(config.sql);
-        let path_res = await pool.request().query(`
-                SELECT image FROM Products WHERE pid = '${body.pid}'
+        let path_res = await pool.request()
+            .input('sid', type['sid'], body.sid)
+            .query(`
+                SELECT logo FROM Shops WHERE sid = @sid
             `)
-        if (path_res.recordset.length <= 0) throw "pid is not exist in Products"
+        // console.log(path_res)
+        if (path_res.recordset.length <= 0) throw "sid is not exist in Shops"
 
         let result = await pool.request()
+            .input('sid', type['sid'], body.sid)
             .query(`
-                DELETE FROM Products WHERE pid = '${body.pid}'
+                DELETE FROM Shops WHERE sid = @sid
             `);
         console.log(result)
         console.log(path_res)
         sql.close();
         
-        let path = path_res.recordset[0].image
+        let path = path_res.recordset[0].logo
         if (result.rowsAffected[0] === 1) {
             let del = await deleteimage(path)
             if      (del != 'successfully') console.log('Delete image failed');
@@ -184,7 +166,7 @@ const deleteimage   = async (path) => {
     }
 }
 
-const getProductby  = async(body)=>{
+const getShopby  = async(body)=>{
     try {
         // console.log(body)
         let pool = await sql.connect(config.sql);
@@ -192,45 +174,45 @@ const getProductby  = async(body)=>{
         if (!type[key]) {
             throw new Error(`Invalid data type for key: ${key}`);
         }
-        if (key === 'description') {
+        if (key === 'address') {
             let result = await pool.request()
+            .input('addressValue', sql.NVarChar, value)
             .query(`
-                SELECT * FROM Products 
-                WHERE CAST(description AS VARCHAR(MAX)) = '${value}'`
+                SELECT * FROM Shops 
+                WHERE CAST(address AS NVARCHAR(MAX)) = @addressValue`
             );
-            console.log("Kết quả truy vấn:", result);
+            console.log("Kết quả truy vấn:\n", result);
             sql.close();
-            if (result.recordset.length <= 0) throw new Error("No products exist in the Products table")
+            if (result.recordset.length <= 0) throw new Error("No shops exist in the Products table")
             return {
-                status: `Get products by ${key}: ${value} successfully`,
+                status: `Get Shops by ${key}: ${value} successfully`,
                 data:   result.recordset
             }
         } else {
             let result = await pool.request()
             .input( 'value', type[key], value)
-            .query(`SELECT * FROM Products WHERE ${key} = @value`);
+            .query(`SELECT * FROM Shops WHERE ${key} = @value`);
             console.log("Kết quả truy vấn:", result);
             sql.close();
-            if (result.recordset.length <= 0) throw new Error("No products exist in the Products table")
+            if (result.recordset.length <= 0) throw new Error("No products exist in the Shops table")
             return {
-                status: `Get products by ${key}: ${value} successfully`,
+                status: `Get Shops by ${key}: ${value} successfully`,
                 data:   result.recordset
             }
         }   
     } catch (err) {
         sql.close();
         return {
-            status: "Get products failed",
+            status: "Get Shops failed",
             data:   err
         }
     }
 }
 
 module.exports = {
-    getallProduct,
-    updateProduct,
-    createProduct,
-    deleteProduct,
-    getProduct,
-    getProductby
+    getallShop,
+    updateShop,
+    createShop,
+    deleteShop,
+    getShopby
 }
