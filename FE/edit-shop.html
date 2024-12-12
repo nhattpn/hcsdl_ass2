@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Sản phẩm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+  <div class="container mx-auto p-6 max-w-7xl">
+    <!-- Header -->
+    <header class="mb-6">
+      <h1 class="text-4xl font-extrabold text-center text-blue-600">Quản lý Sản phẩm</h1>
+    </header>
+    <button onclick="window.location.href='home.html'" 
+        class="bg-indigo-500 text-white px-6 py-3 rounded-lg shadow hover:bg-indigo-600 transition duration-200 mb-6">
+      Quay về Trang Định Hướng
+    </button>
+
+    <!-- Product Form -->
+    <section class="bg-white shadow-lg rounded-lg p-6 mb-8">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Sửa cửa hàng</h2>
+      <div id="shop-id-display" class="md:col-span-3">
+        <label for="shop-id" class="block text-gray-700">ID Shop</label>
+        <input id="shop-id" type="text" value="Chưa có" class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-200 font-weight text-xl uppercase text-gray-800" readonly>
+      </div>
+      <div id="customer-id-display" class="md:col-span-3">
+        <label for="customer-id" class="block text-gray-700">ID Khách hàng</label>
+        <input id="customer-id" type="text" value="Chưa có" class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-200 font-weight text-xl uppercase text-gray-800" readonly>
+      </div>
+      <form id="shop-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+         <!-- Hiển thị PID -->
+        <!-- Name -->
+        <div class="md:col-span-3">
+          <label class="block text-gray-700">Tên cửa hàng</label>
+          <input id="shop-name" type="text" class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Nhập tên cửa hàng" required>
+        </div>
+
+        <!-- Image -->
+        <div class="md:col-span-2">
+          <label class="block text-gray-700">Hình ảnh</label>
+          <input id="shop-image" type="file" class="border-2 border-gray-300 p-3 rounded-lg w-full" accept="image/*" onchange="previewImage(event)" required>
+          <img id="image-preview" class="mt-4 max-h-48" src="#" alt="Hình ảnh xem trước" style="display: none;">
+        </div>
+        
+        <div>
+            <label class="block text-gray-700">Địa chỉ</label>
+            <input id="shop-address" type="text" class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Nhập tên sản phẩm" required>
+          </div>
+
+        <!-- Current Price -->
+        <div>
+          <label class="block text-gray-700">Đánh giá trung bình</label>
+          <input id="shop-rating" type="number" class="border-2 border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Nhập đánh giá" min="0">
+        </div>
+
+        
+        
+
+
+        <!-- Action Buttons -->
+        <div class="md:col-span-3 flex justify-end space-x-4">
+          <button type="reset" id="cancel-button" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-200">Hủy</button>
+          <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-200">Lưu</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Product List -->
+   
+
+ 
+
+  </div>
+  
+
+  <script>
+    function previewImage(event) {
+      const preview = document.getElementById('image-preview');
+      const file = event.target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = "#";
+        preview.style.display = 'none';
+      }
+    }
+  </script>
+  <script type="module" src="edit_shop_script.js"></script>
+</body>
+</html>
+
+

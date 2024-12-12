@@ -1,3 +1,13 @@
+Step to run this mf:
+    Lấy config và .env 
+    npm install lại 
+    npm install dotenv
+    npm install multer
+    ctrl c để thoát
+    npm run dev
+
+
+Đảm bảo trong sql login có đầy đủ permission, IP bật.
 # HCSDL ASSIGNMENT 2
 ## Install MS SQL SERVER
 - LINK: https://www.youtube.com/watch?v=iNXUxqy1svM
@@ -21,3 +31,11 @@ In MS SQL Server 2022, query syntax diffirent.
 https://www.youtube.com/watch?v=9cmv9deKWHw
 tui làm theo clip này nha !
 https://youtu.be/uDS6c6DZyY4?si=wrY6UEVgJ2kmdtma
+
+Step to run this mf:
+    Lấy config và .env 
+    npm install lại 
+    npm install dotenv
+    npm install multer
+    ctrl c để thoát
+    npm run dev
