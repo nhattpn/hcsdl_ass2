@@ -1,19 +1,22 @@
-const API_URL = "http://localhost:5000/api/procedure/totalshoprevenue"; 
+const API_URL = "http://localhost:5000/api/procedure/totalshoprevenue";
+
 // DOM Elements
 const productTable = document.querySelector("#product-table");
 const searchInput = document.querySelector("#search-input");
-const addShopButton = document.querySelector("#add-shop-btn"); // Giả sử có nút thêm cửa hàng
 const notificationElement = document.querySelector("#notification");
 
+let currentSortColumn = "";
+let currentSortOrder = "ASC";
 
 const getQueryParams = () => {
   const params = new URLSearchParams(window.location.search);
-  const start_date = params.get("start_Date"); // Lưu ý: start_Date với chữ cái "D" in hoa
-  const end_date = params.get("end_Date"); // Lưu ý: end_Date với chữ cái "D" in hoa
-  return { start_date, end_date};
+  const start_date = params.get("start_Date");
+  const end_date = params.get("end_Date");
+  const shop_name = params.get("shop_name");
+  return { start_date, end_date, shop_name };
 };
 
-// Hàm hiển thị thông báo
+// Show notification
 const showNotification = (message, isSuccess = true) => {
   notificationElement.textContent = message;
   notificationElement.classList.remove("hidden");
@@ -26,13 +29,15 @@ const showNotification = (message, isSuccess = true) => {
 
 // Fetch and render total shop revenue
 const fetchTotalRevenue = async () => {
-  const { start_date, end_date } = getQueryParams();
-  console.log("Query Params:", start_date, end_date);
+  const { start_date, end_date, shop_name } = getQueryParams();
 
   try {
-    const queryParams = {};
-    if (start_date) queryParams.start_date = start_date;
-    if (end_date) queryParams.end_date = end_date;
+    const queryParams = { start_date, end_date };
+    if (shop_name) queryParams.shop_name = shop_name;
+    if (currentSortColumn) {
+      queryParams.sort_column = currentSortColumn;
+      queryParams.sort_order = currentSortOrder;
+    }
 
     const searchParams = new URLSearchParams(queryParams);
     const response = await fetch(`${API_URL}?${searchParams.toString()}`, {
@@ -41,8 +46,6 @@ const fetchTotalRevenue = async () => {
         "Content-Type": "application/json",
       },
     });
-    console.log("Raw Response:", response);
-
 
     if (!response.ok) {
       throw new Error(`API error: ${response.statusText}`);
@@ -61,16 +64,16 @@ const renderRevenue = (revenue) => {
   productTable.innerHTML = ""; // Clear previous data
 
   if (!revenue || revenue.length === 0) {
-    productTable.innerHTML = '<tr><td colspan="3" class="text-center text-gray-500 py-4">Không có dữ liệu doanh thu.</td></tr>';
+    productTable.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500 py-4">Không có dữ liệu doanh thu.</td></tr>';
     return;
   }
-  console.log("Revenue Data:", revenue);
+
   revenue.forEach((item) => {
     const row = `
       <tr>
-      <td class="py-3 px-6 border-b">
-      <a href="edit-shop.html?shopId=${item.sid}" class="text-blue-500 hover:underline">${item.shop_name}</a>
-    </td>
+        <td class="py-3 px-6 border-b">
+          <a href="edit-shop.html?shopId=${item.sid}" class="text-blue-500 hover:underline">${item.shop_name}</a>
+        </td>
         <td class="py-3 px-6 border-b text-center">${item.sid}</td>
         <td class="py-3 px-6 border-b text-center">${item.total_revenue} VND</td>
         <td class="py-3 px-6 border-b text-right">
@@ -81,6 +84,31 @@ const renderRevenue = (revenue) => {
     productTable.innerHTML += row;
   });
 };
+
+// Sort table function
+const sortTable = (column) => {
+  if (currentSortColumn === column) {
+    currentSortOrder = currentSortOrder === "ASC" ? "DESC" : "ASC";
+  } else {
+    currentSortColumn = column;
+    currentSortOrder = "ASC";
+  }
+
+  fetchTotalRevenue();
+};
+
+// Search shop by name
+searchInput.addEventListener("input", (event) => {
+  const searchValue = event.target.value;
+  const params = new URLSearchParams(window.location.search);
+  if (searchValue) {
+    params.set("shop_name", searchValue);
+  } else {
+    params.delete("shop_name");
+  }
+  window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+  fetchTotalRevenue();
+});
 
 // Delete shop function
 const deleteShop = async (shopId) => {
@@ -102,37 +130,6 @@ const deleteShop = async (shopId) => {
     showNotification("Lỗi khi xóa cửa hàng. Vui lòng thử lại.", false);
   }
 };
-
-// Add new shop (POST request)
-const addShop = async (shopData) => {
-  try {
-    const formData = new FormData();
-    formData.append("sid", shopData.sid);
-    formData.append("uid", shopData.uid);
-    formData.append("name", shopData.name);
-    formData.append("address", shopData.address);
-    formData.append("logo", shopData.logo);
-    formData.append("avg_rating", shopData.avg_rating);
-
-    const response = await fetch("http://localhost:5000/api/shop/create", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Không thể thêm cửa hàng.");
-    }
-
-    showNotification("Cửa hàng đã được thêm thành công.", true);
-    fetchTotalRevenue(); // Refresh revenue data
-  } catch (error) {
-    console.error("Error adding shop:", error);
-    showNotification("Lỗi khi thêm cửa hàng.", false);
-  }
-};
-
-// Event listener for search input
-// searchInput.addEventListener("input", searchOrders);
 
 // Initialize revenue data fetch
 fetchTotalRevenue();
