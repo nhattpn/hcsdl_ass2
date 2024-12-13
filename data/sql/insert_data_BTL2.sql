@@ -35,9 +35,10 @@ VALUES
 ('DEC48823-CA3C-4F08-9AC0-C9C169494EF4', N'Dương Thị', N'Yến', 'duongthiyen', 'password123', 'F', '2000-07-25', 'yen.duong@example.com'),
 ('4F8B3593-A0FA-4DF0-AB7C-842D056033DC', N'Tống Văn', N'Thịnh', 'tongvanthinh', 'password123', 'M', '1995-08-30', 'thinh.tong@example.com');
 
+GO
 --SELECT * FROM Users;
 
---DELETE FROM U_Addresses;
+--DELETE FROM Users;
 
 INSERT INTO U_Addresses
 VALUES
@@ -149,6 +150,7 @@ VALUES
 ('1A6D1B46-E105-40E5-9A4C-E250839142CF', '9A4BC12B-CD41-4409-A80E-83A035759E01', '556677889955', 'VietinBank'),
 ('C32BFF71-8B45-47BC-8D1B-42E272D0EA99', 'DEC48823-CA3C-4F08-9AC0-C9C169494EF4', '667788990077', 'Agribank'),
 ('B1292293-D584-4DE6-925F-3D2D960E00D4', '4F8B3593-A0FA-4DF0-AB7C-842D056033DC', '223344556733', 'Vietcombank');
+
 GO
 
 --SELECT * FROM Bank_Accounts;
@@ -189,8 +191,8 @@ VALUES
 ('E1F297CE-BCAF-4244-9997-DBF743CD0F6F', 'default', FLOOR(RAND() * 500) * 100),
 ('F11B525F-6517-4216-9EAF-9E78BD75DB78', 'default', FLOOR(RAND() * 1000) * 100);
 
-GO;
 
+GO
 
 -------------------------------- Tao du lieu mau Sellers -----------------------------------
 --DELETE FROM Sellers;
@@ -208,7 +210,8 @@ VALUES
 ('9A4BC12B-CD41-4409-A80E-83A035759E01', 'Active', '2024-12-01 17:00:00', '2023-03-20'),
 ('DEC48823-CA3C-4F08-9AC0-C9C169494EF4', 'Active', '2024-12-10 11:30:00', '2022-02-15'),
 ('4F8B3593-A0FA-4DF0-AB7C-842D056033DC', 'Active', '2024-12-11 08:15:00', '2021-01-10');
-GO;
+
+GO
 
 --SELECT cus.uid 
 --FROM Customers AS cus
@@ -240,7 +243,7 @@ VALUES
 ('CC2F44C8-0D28-4A0E-BAFE-C3643C321605', '54A40A30-B51C-4082-AF18-542D9D643095', N'Shop Vải Sắc', N'Số 11, Đường Trần Bình Trọng, Quận 5, TP.HCM', 'shop_vai_sac_logo.png', NULL),
 ('36C787D6-F5C6-48D2-AFB4-E3442FFEE6E3', '54A40A30-B51C-4082-AF18-542D9D643095', N'Balo Xinh', N'Số 22, Đường Điện Biên Phủ, Quận Bình Thạnh, TP.HCM', 'balo_xinh_logo.png', NULL);
 
-GO;
+GO
 
 --SELECT sel.uid, COUNT(*) AS shop_count
 --FROM Sellers AS sel
@@ -281,6 +284,7 @@ VALUES
 ('A6D1867E-BA9E-4882-AF3B-E0A8CB92A284', 25, NULL, '2024-12-17 18:30:00', '2024-12-27 18:30:00', 'percentage', 700000, 100000, 5, 'EC2A67AC-C4D1-4EF0-A376-B424194D8848'),
 ('D94E852B-6864-48B1-A635-E722CFF12138', NULL, 180000, '2024-12-17 18:30:00', '2024-12-27 18:30:00', 'value', NULL, 350000, 10, 'EC2A67AC-C4D1-4EF0-A376-B424194D8848');
 
+GO
 
 --SELECT * FROM Vouchers;
 
@@ -331,7 +335,7 @@ VALUES
 
 --SELECT * FROM Voucher_Own
 
-
+GO
 
 -------------------------------- Tao du lieu mau Courier_Services -----------------------------------
 --DELETE FROM Courier_Services;
@@ -374,6 +378,8 @@ INSERT INTO CS_Addresses VALUES
 
 --SELECT * FROM CS_Addresses
 
+GO
+
 -------------------------------- Tao du lieu mau Categories -----------------------------------
 --DELETE FROM Categories;
 
@@ -383,6 +389,8 @@ INSERT INTO Categories VALUES
 ('01C13221-835B-4635-98F4-BF215E7232C3', N'Laptop & Máy tính bảng', NULL),
 ('5F0C5C8C-51DA-458E-A519-C77896458630', N'Đồ điện tử', NULL),
 ('E6D017C3-5C0D-4E6E-8438-F3731ABC9889', N'Thời trang', NULL);
+
+GO
 
 -- danh muc con
 INSERT INTO Categories (cid, name, cpid) VALUES 
@@ -397,7 +405,7 @@ INSERT INTO Categories (cid, name, cpid) VALUES
 
 --SELECT * FROM Categories;
 
-
+GO
 -------------------------------- Tao du lieu mau Brands -----------------------------------
 --DELETE FROM Brands;
 
@@ -409,7 +417,7 @@ INSERT INTO Brands (bid, name) VALUES
 
 --SELECT * FROM Brands;
 
-
+GO
 -------------------------------- Tao du lieu mau Products -----------------------------------
 --DELETE FROM Products;
 
@@ -460,6 +468,12 @@ INSERT INTO Products (pid, image, manufactor_date, current_price, name, descript
 ('27FB148A-173B-409E-A876-464148ECDDA9', 'image38.jpg', '2024-12-09', 1399000, N'Phụ kiện Apple', N'Phụ kiện Apple gồm dây sạc, tai nghe Bluetooth, và bộ chuyển đổi USB-C', 4.6, 100, 'AA818D6E-1F46-442E-84E8-096934E0DAC1', 'B0272D2D-9EBA-43C1-B46E-48D0791A35ED', '9E6E3CAF-E34A-4E63-976F-5315BE32A4ED'),
 ('4BC9D214-855B-4449-8338-CE7DC6AD5B64', 'image39.jpg', '2024-12-09', 1990000, N'Giày thể thao Adidas', N'Giày thể thao Adidas với công nghệ đệm Boost giúp tăng cường sự thoải mái', 4.7, 120, 'DA41A459-2BB6-42E4-BC17-88E4CB9ED434', 'C441AED9-A223-4831-9F51-15DAFADF8931', 'D981A200-5C95-4634-9954-2BA7672B3EED');
 
+GO
+
+UPDATE Products SET avg_rating = NULL;
+
+GO
+
 --SELECT * FROM Products
 
 -------------------------------- Tao du lieu mau Carts -----------------------------------
@@ -492,6 +506,8 @@ VALUES
 ('47942346-733C-4317-A3BD-DDB2BDB17AA1', 0, 0),
 ('BEC6E538-9B2F-4C3F-AD32-E18AE3255DB5', 0, 0);
 
+GO
+
 --DELETE FROM Add_To_Carts;
 
 --DELETE FROM Carts;
@@ -520,6 +536,8 @@ VALUES
 ('E2F283F8-B3B6-495F-9F23-A59505211D65', 'ACCC574A-CD89-43B0-89FA-6A6292F11824', 99.99, 1),
 ('86D2604F-4650-40BF-B171-A8E6E8849023', 'B3C077E7-6B4A-4740-9603-6C0331B07FA9', 55.00, 5),
 ('4E9C06F4-9CC0-4466-90BA-D24DDE3D9951', 'CB0EAFA7-19B1-46A4-865D-773ECE151FA9', 75.00, 3);
+
+GO
 
 --SELECT * FROM Add_To_Carts
 --SELECT * FROM Carts;
@@ -570,6 +588,8 @@ VALUES
 	('DEBD8F36-6E2E-4E70-AF3C-F11B82CBA7A7', 'Free', '2024-12-17', 0, '5523 Walnut St', 'Gift order', '2024-12-17', '2024-12-17', '2024-12-05', 'Completed', '7A59C5E3-5F7F-4F7D-B1D8-77A19E4E0722', 
         'Prepaid', 0, 0, '1E1E41F4-6861-4D46-9A95-3F964D21F2B5', 'EC2A67AC-C4D1-4EF0-A376-B424194D8848', '47EBC16D-9859-4431-877B-7697CE05884E', '15E8D088-676F-401C-A692-5303D5666651', '953747C4-5456-407C-A948-EB6F3D3227BE');
 
+GO
+
 --SELECT o.oid, o.sid, p.pid 
 --FROM Orders AS o
 --JOIN Products AS p ON o.sid = p.sid;
@@ -615,6 +635,8 @@ VALUES
 	('DEBD8F36-6E2E-4E70-AF3C-F11B82CBA7A7', '1AB8CD31-925E-42FC-BFEB-0F76B3E8E2A4', 4, 0),
 	('D99F189E-D0D4-46F0-8F01-3E7399187F3E', '1AB8CD31-925E-42FC-BFEB-0F76B3E8E2A4', 4, 0);
 
+GO
+
 --SELECT * FROM Order_Include;
 
 -------------------------------- Tao du lieu mau Reviews -----------------------------------
@@ -645,8 +667,9 @@ VALUES
 ('3BF9B0F6-467D-4792-85FC-F04A2AEDAD06', DEFAULT, NULL, N'Tru tiên', 3, '86D2604F-4650-40BF-B171-A8E6E8849023', 'B3C077E7-6B4A-4740-9603-6C0331B07FA9'),
 ('CB2488F8-C5E9-4533-BBBB-F6E712C43324', DEFAULT, NULL, N'Kỹ sư điền trang bá nhất thế giới', 2, '4E9C06F4-9CC0-4466-90BA-D24DDE3D9951', 'CB0EAFA7-19B1-46A4-865D-773ECE151FA9');
 
-SELECT * FROM Reviews
-ORDER BY pid;
---SELECT * FROM Products
+--SELECT * FROM Reviews
+--ORDER BY pid;
+--SELECT * FROM Orders
+--SELECT * FROM Customers
 
 

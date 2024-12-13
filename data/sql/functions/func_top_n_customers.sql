@@ -2,6 +2,20 @@ CREATE OR ALTER FUNCTION top_n_customers (@n INT, @sd DATE, @ed DATE)
 RETURNS NVARCHAR(MAX)
 AS
 BEGIN
+	IF @n <= 0
+		RETURN 'Error: @n phai lon hon 0.';
+
+	IF @sd > @ed
+		RETURN 'Error: Ngay bat dau (@sd) phai som hon ngay ket thuc (@ed).';
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM Orders
+		WHERE status = 'Completed'
+			AND complete_date BETWEEN @sd AND @ed
+	)
+		RETURN 'Khong co don hang nao duoc hoan thanh trong khoang thoi gian nay.';
+
 	DECLARE @uid UNIQUEIDENTIFIER;
 	DECLARE @total_spent FLOAT;
 	DECLARE @result NVARCHAR(MAX) = '';
@@ -40,3 +54,4 @@ END;
 --	ORDER BY SUM(o.total_value) DESC;
 
 --SELECT dbo.top_n_customers (3, '2024-12-13', '2024-12-20');
+--SELECT dbo.top_n_customers (2, '2024-12-15', '2024-12-20');
