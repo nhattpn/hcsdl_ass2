@@ -152,25 +152,30 @@ const renderProducts = (products) => {
 };
 
 
-// Delete product
+// Delete product// Delete product
 window.deleteProduct = async (id) => {
-  if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) { 
-    const response = await fetch(`${API_URL}/delete`, {
-      method: "DELETE", 
-      headers: {
-        'Content-Type': 'application/json', 
-      },
-      body: JSON.stringify({ pid: id }), 
-    });
+  if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+    try {
+      const response = await fetch(`${API_URL}delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (response.ok) {
-      alert("Sản phẩm đã được xóa.");
-      fetchProducts(); // Làm mới danh sách sản phẩm
-    } else {
-      alert("Xóa sản phẩm thất bại.");
+      if (response.ok) {
+        alert("Sản phẩm đã được xóa.");
+        fetchProducts(); // Làm mới danh sách sản phẩm
+      } else {
+        const errorMessage = await response.text();
+        alert(`Xóa sản phẩm thất bại: ${errorMessage}`);
+      }
+    } catch (error) {
+      alert(`Đã xảy ra lỗi: ${error.message}`);
     }
   }
 };
+
 
 
 
